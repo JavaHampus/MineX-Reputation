@@ -1,0 +1,9 @@
+main: reputation.javahampus.Reputation
+name: Reputation
+author: JavaHampus
+version: 1.0
+description: Reputation Plugin
+
+commands:
+  reputation:
+    usage: /reputation
