@@ -15,39 +15,43 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
 
-package reputation.javahampus;
+package reputation.javahampus.connection;
 
-import org.bukkit.plugin.java.JavaPlugin;
-import reputation.javahampus.commands.ReputationCommand;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import reputation.javahampus.Reputation;
 import reputation.javahampus.data.DataManager;
-import reputation.javahampus.connection.ConnectionHandler;
+import reputation.javahampus.utils.Constants;
 
-public class Reputation extends JavaPlugin {
+import java.util.ArrayList;
+import java.util.List;
 
-    @Override
-    public void onEnable() {
-        getLogger().info("Plugin has enabled!");
+public class ConnectionHandler implements Listener {
 
-        DataManager.createConfig();
-        DataManager.getDataConfig().options().copyDefaults(true);
-        DataManager.saveDataConfig();
+    public ConnectionHandler() {}
 
-        registerCommands();
-        registerEvents();
-    }
+    @EventHandler
+    public void onPlayerConnection(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
 
-    public void registerCommands() {
-        getCommand("reputation").setExecutor(new ReputationCommand());
-    }
+       if(DataManager.getDataConfig().get(String.valueOf(player.getUniqueId())) == null) {
+           DataManager.getDataConfig().set(player.getUniqueId() + ".reps", Constants.DEFAULT_REP_VALUE);
 
-    public void registerEvents() {
-        getServer().getPluginManager().registerEvents(new ConnectionHandler(), this);
+           List<String> hasGivenTo = new ArrayList<>();
+           DataManager.getDataConfig().set(player.getUniqueId() + ".hasGivenTo", hasGivenTo);
+
+           DataManager.saveDataConfig();
+           DataManager.reloadDataConfig();
+       }
     }
 }

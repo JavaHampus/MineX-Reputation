@@ -3,6 +3,7 @@ name: Reputation
 author: JavaHampus
 version: 1.0
 description: Reputation Plugin
+api-version: 1.13
 
 commands:
   reputation:

@@ -15,39 +15,20 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
 
-package reputation.javahampus;
+package reputation.javahampus.utils;
 
-import org.bukkit.plugin.java.JavaPlugin;
-import reputation.javahampus.commands.ReputationCommand;
-import reputation.javahampus.data.DataManager;
-import reputation.javahampus.connection.ConnectionHandler;
+public class Constants {
 
-public class Reputation extends JavaPlugin {
+    public static int DEFAULT_REP_VALUE = 0;
 
-    @Override
-    public void onEnable() {
-        getLogger().info("Plugin has enabled!");
+    public static String PLUGIN_PREFIX = "&b&lReputation &8&l» ";
+    public static String INVENTORY_TITLE = "&b&lReputation";
 
-        DataManager.createConfig();
-        DataManager.getDataConfig().options().copyDefaults(true);
-        DataManager.saveDataConfig();
-
-        registerCommands();
-        registerEvents();
-    }
-
-    public void registerCommands() {
-        getCommand("reputation").setExecutor(new ReputationCommand());
-    }
-
-    public void registerEvents() {
-        getServer().getPluginManager().registerEvents(new ConnectionHandler(), this);
-    }
 }
